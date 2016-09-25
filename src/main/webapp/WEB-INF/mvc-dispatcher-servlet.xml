@@ -10,6 +10,9 @@
 
     <mvc:annotation-driven/>
 
+    <!-- the mvc resources tag does the magic -->
+    <mvc:resources mapping="/resources/**" location="/WEB-INF/content/" />
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
