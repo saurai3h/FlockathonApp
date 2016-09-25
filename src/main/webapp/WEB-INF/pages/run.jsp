@@ -1,10 +1,11 @@
 <html>
 <head>
+    
     <title>HELLO</title>
     <script src="https://apps-static.flock.co/js-sdk/0.1.0/flock.js"></script>
-    <script src="https://5e97ec15.ngrok.io/resources/Pizzicato.min.js"></script>
-    <script src="https://5e97ec15.ngrok.io/resources/jquery.min.js"></script>
-    <link href="https://5e97ec15.ngrok.io/resources/modal_buttons.css" rel="stylesheet" type="text/css">
+    <script src="https://63eedccb.ngrok.io/resources/Pizzicato.min.js"></script>
+    <script src="https://63eedccb.ngrok.io/resources/jquery.min.js"></script>
+    <link href="https://63eedccb.ngrok.io/resources/modal_buttons.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="wrapper">
@@ -55,7 +56,7 @@
     function mySend() {
         var text = document.getElementById("text-sending").value;
         $.ajax({
-            url: "https://5e97ec15.ngrok.io/api/send?sender=" + sender + "&receiver=" + receiver + "&toSend=" + text, success: function(result){
+            url: "https://63eedccb.ngrok.io/api/send?sender=" + sender + "&receiver=" + receiver + "&toSend=" + text, success: function(result){
                 noteCreated = true;
                 myClose();
             }
@@ -77,7 +78,7 @@
         }else if(el.value == "off"){
             el.value = "on";
             $.ajax({
-                url: "https://5e97ec15.ngrok.io/api/recording/stop?sound=" + voice, success: function(result){
+                url: "https://63eedccb.ngrok.io/api/recording/stop?sound=" + voice, success: function(result){
                     $("#text-sending").html(result);
                 }
             });

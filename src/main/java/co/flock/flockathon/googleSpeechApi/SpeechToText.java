@@ -25,7 +25,7 @@ public class SpeechToText {
     }
     public static String convert(String audioFile) throws Exception {
         SyncRecognizeClient client = new SyncRecognizeClient(channel, URI.create(audioFile), sampling);
-        String text = text = client.recognize();;
+        String text = client.recognize();;
         /*try {
             text = client.recognize();
         } finally {
