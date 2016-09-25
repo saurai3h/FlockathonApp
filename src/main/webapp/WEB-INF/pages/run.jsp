@@ -3,6 +3,7 @@
     <title>HELLO</title>
     <script src="https://apps-static.flock.co/js-sdk/0.1.0/flock.js"></script>
     <script src="https://5e97ec15.ngrok.io/resources/Pizzicato.min.js"></script>
+    <script src ="https://github.com/higuma/web-audio-recorder-js/blob/master/lib-minified/WebAudioRecorder.min.js"></script>
     <script src="https://5e97ec15.ngrok.io/resources/jquery.min.js"></script>
     <link href="https://5e97ec15.ngrok.io/resources/modal_buttons.css" rel="stylesheet" type="text/css">
 </head>
@@ -10,7 +11,7 @@
 <div class="wrapper">
     <textarea class="text-box" id="text-sending"></textarea>
     <div class="btn-container">
-        <label class="switch"><input id = "sound-btn" type="checkbox" onclick="recordSound()" value="begin"><div class="slider round"></div></label>
+        <label class="switch"><input id = "sound-btn" type="checkbox" onclick="recordSound()" value="begin"><div class="slider round"><audio id = "sound-node"></audio></div></label>
         <button class="send-btn" onclick="mySend()">Send</button>
         <button class="close-btn" onclick="myClose()">Close</button>
     </div>
@@ -62,26 +63,34 @@
         });
     }
 
-    var voice;
+    var audioRecorder = new WebAudioRecorder(document.getElementById("sound-node"));
+
+    audioRecorder.onComplete = function (rec, blob) {
+        el.value = "on";
+        $.ajax({
+            url: "https://5e97ec15.ngrok.io/api/recording/stop?sound=" + blob, success: function(result){
+                $("#text-sending").html(result);
+            }
+        });
+    };
+    audioRecorder.ontimeout = function (recorder)   {
+        alert("Sorry! The audio couldn't be recorded");
+    };
+    audioRecorder.onerror = function (recorder)   {
+        alert("Sorry! The audio couldn't be recorded");
+    };
 
     function recordSound() {
 
         var el = document.getElementById("sound-btn");
 
         if(el.value == "on" || el.value == "begin") {
-            voice = new Pizzicato.Sound({
-                source: 'input',
-                options: {volume: 0.3}
-            });
+            audioRecorder.startRecording();
             el.value = "off";
         }else if(el.value == "off"){
+            audioRecorder.finishRecording();
             el.value = "on";
-            $.ajax({
-                url: "https://5e97ec15.ngrok.io/api/recording/stop?sound=" + voice, success: function(result){
-                    $("#text-sending").html(result);
-                }
-            });
-            voice.play();
+
         }
     }
 
